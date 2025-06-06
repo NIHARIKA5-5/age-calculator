@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Age Calculator</title>
+  <style>
+    body {
+      background-color: #4a4aff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: white;
+      padding-top: 50px;
+    }
+    h1 { font-size: 36px; margin-bottom: 30px; }
+    .input-box {
+      background-color: white;
+      padding: 15px 20px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 10px;
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    input[type="date"] {
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #6a6aff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 30px;
+    }
+    .card {
+      background-color: white;
+      color: black;
+      padding: 20px;
+      width: 80px;
+      border-radius: 10px;
+      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    }
+    .card h2 { margin: 0; font-size: 28px; }
+    .card p { margin-top: 5px; font-size: 14px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>AGE CALCULATOR</h1>
+
+  <div class="input-box">
+    <input type="date" id="dob" />
+    <button onclick="calculateAge()">Calculate</button>
+  </div>
+
+  <div class="result">
+    <div class="card">
+      <h2 id="year">0</h2>
+      <p>YEAR</p>
+    </div>
+    <div class="card">
+      <h2 id="month">0</h2>
+      <p>MONTH</p>
+    </div>
+    <div class="card">
+      <h2 id="day">0</h2>
+      <p>DAY</p>
+    </div>
+  </div>
+
+  <script>
+    // Set the maximum selectable date to today
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById('dob').max = `${yyyy}-${mm}-${dd}`; // restricts future dates :contentReference[oaicite:0]{index=0}
+
+    function calculateAge() {
+      const dobInput = document.getElementById("dob");
+      const dobValue = dobInput.value;
+      if (!dobValue) {
+        alert("Please enter your date of birth.");
+        return;
+      }
+
+      const dob = new Date(dobValue);
+      const now = new Date();
+      if (dob > now) { // validate no future date
+        alert("Date of birth cannot be in the future.");
+        return;
+      }
+
+      let years = now.getFullYear() - dob.getFullYear();
+      let months = now.getMonth() - dob.getMonth();
+      let days = now.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+        days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+      }
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      document.getElementById("year").innerText = years;
+      document.getElementById("month").innerText = months;
+      document.getElementById("day").innerText = days;
+    }
+  </script>
+</body>
+</html>
